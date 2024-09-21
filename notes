@@ -1,0 +1,67 @@
+technology:
+backend:node js express / api develope
+frontend : react js  with vite
+
+database :mongodb | hosted mongo db cluster
+
+backend modules: user module:
+portfolio module:
+
+
+api list:
+register user
+login user
+get user
+get user byid
+
+
+--->
+
+creat profile:
+update profile api
+delete profile
+update experience
+update skils
+update education
+update project
+remove project
+remove education
+remove skill
+
+
+frontend;
+library: 
+ui library material ui :
+api calling :axios package
+form handling react-hook-form
+
+
+
+
+application --> register ---> login --> detail fill --> user -->detail -->
+runtime update --> resumes 4 template --> resume -->
+
+
+
+frontend firebase : host
+backend : render 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
