@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .text {
+    font-size: 4rem;
+    color: #030303;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+  }
+  
+  .char {
+    display: inline-block;
+    transition: transform 0.3s;
+  }
+  

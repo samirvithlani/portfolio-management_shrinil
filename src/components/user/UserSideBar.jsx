@@ -5,6 +5,7 @@ import {
   Collapse,
   createTheme,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -15,9 +16,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { constant } from "../../constant";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import "../../assets/css/layout.css"
+import "../../assets/css/layout.css"; // Ensure this file exists
+import { constant } from "../../constant"; // Ensure this constant file exists
+import StickyHeader from "../common/StickyHeader";
 
 export const UserSideBar = () => {
   const navigate = useNavigate();
@@ -55,156 +59,66 @@ export const UserSideBar = () => {
   const toggleContestMenu = () => {
     setOpenContestMenu(!openContestMenu);
   };
+
   const RouteArray = [
     {
       id: 1,
       name: "Home",
-      //logoImage: HomeIcon,
       linkUrl: "",
       textColor: "#7D8FB3",
       activeMenuFor: ["dashboard"],
     },
   ];
+
   const defaultTheme = createTheme();
+
   return (
     <ThemeProvider theme={defaultTheme}>
+      <StickyHeader />
       <Box
         sx={{
-          display: "flex",
+          //display: "flex",
           backgroundColor: "rgb(238,242,246)",
           width: "100%",
           fontFamily: "Lato",
+          
         }}
       >
-        {/* <GlobalScrollbarStyles backgroundColor={constant.backgroundColor} /> */}
-        <Drawer
-          variant={isMobile ? "temporary" : "permanent"}
-          open={isExpanded}
-          onClose={() => setIsExpanded(false)}
-          PaperProps={{
-            sx: {
-              position: "inherit",
-              borderRight: 0,
-              width: isExpanded ? drawerWidth : 0,
-              height: "100%",
-              minHeight: "635px",
-              flexShrink: 0,
-              overflowX: "hidden",
-              border: "5px solid #F0F0F0",
-              borderRadius: "10px",
-              backgroundColor: "white",
-              "& .MuiDrawer-paper": {
-                boxSizing: "border-box",
-              },
+        {/* Toggle Sidebar Button */}
+        {/* <IconButton
+          onClick={toggleSidebar}
+          sx={{
+            position: "fixed",
+            top: 16,
+            left: isExpanded ? drawerWidth + 16 : 16,
+            zIndex: 1300,
+            color: "black",
+            bgcolor: "white",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            "&:hover": {
+              backgroundColor: "grey.100",
             },
           }}
-          ModalProps={{ keepMounted: true }}
-          anchor="left"
         >
-          <List>
-            {RouteArray.map((res, index) => (
-              <React.Fragment key={res.name}>
-                <ListItem
-                  disablePadding
-                  component={res.submenu ? "div" : Link}
-                  to={res.submenu ? undefined : res.linkUrl}
-                  onClick={
-                    res.submenu
-                      ? toggleContestMenu
-                      : () => isMobile && setIsExpanded(false)
-                  }
-                  sx={{
-                    fontWeight: "bold",
-                    "&:hover": {
-                      backgroundColor: constant.backgroundColor,
-                    },
-                    "&:hover .MuiListItemText-root": {
-                      color: "white",
-                    },
-                  }}
-                >
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <Avatar sx={{ bgcolor: constant.backgroundColor }}>
-                        {res?.logoImage && <res.logoImage />}
-                      </Avatar>
-                    </ListItemIcon>
-                    <ListItemText
-                      sx={{
-                        color: constant.backgroundColor,
-                        fontWeight: "bold",
-                      }}
-                      primary={res.name}
-                    />
-                    {res.submenu &&
-                      (openContestMenu ? (
-                        <ExpandLessIcon />
-                      ) : (
-                        <ExpandMoreIcon />
-                      ))}
-                  </ListItemButton>
-                </ListItem>
+          {isExpanded ? <MenuIcon /> : <MenuIcon />}
+        </IconButton> */}
 
-                {res.submenu && (
-                  <Collapse in={openContestMenu} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      {res.submenu.map((submenu) => (
-                        <ListItem
-                          key={submenu.name}
-                          disablePadding
-                          component={Link}
-                          to={submenu.linkUrl}
-                          onClick={() => isMobile && setIsExpanded(false)}
-                          sx={{
-                            paddingLeft: 4,
-                            "&:hover": {
-                              backgroundColor: constant.backgroundColor,
-                            },
-                            "&:hover .MuiListItemText-root": {
-                              color: "white",
-                            },
-                          }}
-                        >
-                          <ListItemButton>
-                            <ListItemText
-                              sx={{
-                                color: constant.backgroundColor,
-                                fontWeight: "bold",
-                              }}
-                              primary={submenu.name}
-                            />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Collapse>
-                )}
-              </React.Fragment>
-            ))}
-          </List>
-          <Box sx={{ marginTop: "auto" }}>
-            <Button
-              variant="contained"
-              sx={{
-                color: "#whitesmoke",
-                bgcolor: constant.backgroundColor,
-                fontFamily: "Lato",
-                "&:hover": {
-                  backgroundColor: constant.backgroundColor,
-                  color: "white",
-                },
-              }}
-             startIcon={<ExitToAppIcon />}
-              onClick={handleOpenLogoutDialog}
-              fullWidth
-            >
-              Logout
-            </Button>
-          </Box>
-        </Drawer>
+      
+      
+
         <Box
           component="main"
-          sx={{ width: "100%", height: "100%", mt: 3, mr: 2 }}
+          sx={{
+            width: "100%", // Ensure full viewport width
+            height: "100vh", // Ensure full viewport height
+            mt: 0, // Remove top margin
+            mr: 0, // Remove right margin
+            overflow: "auto", // Handle overflow if content is larger than the viewport
+            boxSizing: "border-box", // Include padding and border in element's total width and height
+           display: "flex", // If you want to use flex layout
+           flexDirection: "column", // If you want to stack content vertically
+            
+          }}
         >
           <Outlet />
         </Box>
