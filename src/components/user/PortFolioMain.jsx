@@ -16,6 +16,8 @@ export const PortFolioMain = () => {
     const res = await axios.get("creator-profile/user/" + id);
     console.log(res.data);
     setPortfolio(res.data);
+    const portfolioId = res.data._id;
+    localStorage.setItem("portfolioId", portfolioId);
   };
 
   useEffect(() => {
@@ -105,7 +107,8 @@ export const PortFolioMain = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <CreatorEducation education={portfolio?.education} />
+              <CreatorEducation education={portfolio?.education} profileId={portfolio?._id}
+                fetchData={fetchLoggedinUserData}/>
             </Box>
           </Grid>
 
@@ -119,7 +122,8 @@ export const PortFolioMain = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <CreatorSkills skills={portfolio?.skills} />
+              <CreatorSkills skills={portfolio?.skills} profileId={portfolio?._id}
+                fetchData={fetchLoggedinUserData} />
             </Box>
           </Grid>
         </Grid>

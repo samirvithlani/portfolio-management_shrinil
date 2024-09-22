@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -9,10 +9,16 @@ import {
   Box,
   Typography,
   InputAdornment,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import { useForm, useFieldArray } from "react-hook-form";
 import { LinkedIn, GitHub, Twitter } from "@mui/icons-material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const steps = [
   "Basic Details",
@@ -24,6 +30,35 @@ const steps = [
 
 const CreatePortfolio = () => {
   const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {}, []);
+
+  const [openDialog, setOpenDialog] = useState(false);
+  useEffect(() => {
+    setOpenDialog(true); // Show the dialog when the component mounts
+  }, []);
+
+  const handleConfirm = async () => {
+    try {
+      // Call the API to delete the old profile
+      const portfolioId = localStorage.getItem("portfolioId");
+      await axios.delete("/creator-profile/delete/"+portfolioId); // Replace with your actual endpoint
+
+      // Proceed with your form submission or any other logic here
+      handleNext(); // Move to the next step after confirmation
+
+      // Close the dialog
+      setOpenDialog(false);
+    } catch (error) {
+      console.error("Error deleting old profile:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setOpenDialog(false); // Close the dialog without doing anything
+    navigate("/user/main"); // Redirect to the main page
+  };
+
   const { control, handleSubmit, register } = useForm({
     defaultValues: {
       basicDetails: {
@@ -102,15 +137,35 @@ const CreatePortfolio = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
 
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     console.log("Form Data Submitted:", data);
     Object.assign(data, { user: localStorage.getItem("id") });
     const res = await axios.post("/creator-profile", data);
     console.log("Response:", res);
+    navigate("/user/main");
   };
 
   return (
     <Box sx={{ width: "100%" }}>
+      <Dialog open={openDialog} onClose={handleCancel}>
+        <DialogTitle>Confirm Action</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to continue? This will delete your old profile
+            and generate a new one.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirm} color="secondary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
