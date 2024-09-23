@@ -42,7 +42,12 @@ const CreatePortfolio = () => {
     try {
       // Call the API to delete the old profile
       const portfolioId = localStorage.getItem("portfolioId");
-      await axios.delete("/creator-profile/delete/"+portfolioId); // Replace with your actual endpoint
+      if(portfolioId){
+        await axios.delete("/creator-profile/delete/"+portfolioId); // Replace with your actual endpoint
+      }
+      else{
+        alert("No portfolio found to delete");
+      }
 
       // Proceed with your form submission or any other logic here
       handleNext(); // Move to the next step after confirmation

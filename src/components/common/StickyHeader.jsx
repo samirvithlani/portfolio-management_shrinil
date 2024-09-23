@@ -1,7 +1,23 @@
-import React from "react";
-import { Box, Link, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Link, Typography, Button } from "@mui/material";
 
 const StickyHeader = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check local storage for the user's ID
+  useEffect(() => {
+    const userId = localStorage.getItem("id");
+    if (userId) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("id"); // Remove id from localStorage
+    setIsLoggedIn(false); // Update state
+  };
+
   return (
     <Box
       sx={{
@@ -14,9 +30,9 @@ const StickyHeader = () => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        width: "100%",  // Ensures the header spans the full width
-        boxSizing: "border-box", // Include padding and border in element's total width and height
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"  // Optional for added effect
+        width: "100%",
+        boxSizing: "border-box",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
       }}
     >
       <Typography variant="h5" sx={{ fontWeight: "bold" }}>
@@ -27,12 +43,20 @@ const StickyHeader = () => {
           Home
         </Link>
         <Link href="/user/resume" underline="none" color="inherit" sx={{ fontSize: "18px" }}>
-          build resume
+          Build Resume
         </Link>
-        
         <Link href="/user/create" underline="none" color="inherit" sx={{ fontSize: "18px" }}>
           Create
         </Link>
+        {isLoggedIn ? (
+          <Button onClick={handleLogout} sx={{ color: "#fff", fontSize: "18px" }}>
+            Logout
+          </Button>
+        ) : (
+          <Link href="/" underline="none" color="inherit" sx={{ fontSize: "18px" }}>
+            Login
+          </Link>
+        )}
       </Box>
     </Box>
   );
