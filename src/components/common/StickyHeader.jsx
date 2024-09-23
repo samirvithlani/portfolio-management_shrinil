@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Link, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const StickyHeader = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,9 +14,12 @@ const StickyHeader = () => {
   }, []);
 
   // Logout function
+  const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("id"); // Remove id from localStorage
     setIsLoggedIn(false); // Update state
+    navigate('/')
+
   };
 
   return (

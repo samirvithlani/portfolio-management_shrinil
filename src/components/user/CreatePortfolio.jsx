@@ -35,7 +35,7 @@ const CreatePortfolio = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   useEffect(() => {
-    setOpenDialog(true); // Show the dialog when the component mounts
+    //setOpenDialog(true); // Show the dialog when the component mounts
   }, []);
 
   const handleConfirm = async () => {

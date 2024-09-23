@@ -10,8 +10,8 @@ import FancyParticles from './components/common/FancyParticles'
 
 function App() {
   const [count, setCount] = useState(0)
-  axios.defaults.baseURL = 'http://localhost:3001'
-  //axios.defaults.baseURL = 'https://portfolio-mng-backend.onrender.com'
+  //axios.defaults.baseURL = 'http://localhost:3001'
+  axios.defaults.baseURL = 'https://portfolio-mng-backend.onrender.com'
   const url = window.location.href
   console.log('url', url)
 

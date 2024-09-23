@@ -21,6 +21,7 @@ export const CreatorResume = () => {
 
   useEffect(() => {
     // Replace 'your-api-endpoint' with the actual endpoint you are using
+    try{
     axios.get('creator-profile/user/'+localStorage.getItem('id'))
       .then(response => {
         setResumeData(response.data);
@@ -28,6 +29,9 @@ export const CreatorResume = () => {
       .catch(error => {
         console.error('Error fetching resume data:', error);
       });
+    }catch(err){
+      console.log(err)
+    }
   }, []);
 
   const handleDownload = () => {
