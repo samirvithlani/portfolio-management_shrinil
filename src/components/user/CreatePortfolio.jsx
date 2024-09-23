@@ -526,7 +526,7 @@ const CreatePortfolio = () => {
             >
               Back
             </Button>
-            {activeStep === steps.length - 1 ? (
+            {activeStep === steps.length? (
               <Button type="submit" variant="contained">
                 Submit
               </Button>

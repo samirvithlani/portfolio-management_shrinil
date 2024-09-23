@@ -232,7 +232,9 @@ export default function CreatorProjects({ projects, id, fetchData }) {
     try {
       const response = await axios({
         method: projectData.projectId ? 'put' : 'post',
-        url: `/creator-profile/updateproject/${id || ''}`,
+        url: projectData.projectId 
+          ? `/creator-profile/updateproject/${id || ''}` 
+          : `/creator-profile/addproject/${id || ''}`,
         data: projectData,
         headers: {
           'Content-Type': 'application/json',
@@ -243,21 +245,20 @@ export default function CreatorProjects({ projects, id, fetchData }) {
       setSnackbarMessage(projectData.projectId ? 'Project updated successfully' : 'Project added successfully');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
-      fetchData();
+      fetchData(); // Fetch updated projects
     } catch (error) {
       // Handle error response
       setSnackbarMessage('Failed to update project');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
       console.error('Error updating project:', error);
-      fetchData();
     }
   };
 
   const handleDelete = async (projectId) => {
     try {
       const res = await axios.put(`/creator-profile/removeproject/${id}`, {
-        data: { projectId },
+        projectId,  // Send projectId in the request body
       });
       console.log('Project deleted:', res.data);
 
@@ -270,7 +271,6 @@ export default function CreatorProjects({ projects, id, fetchData }) {
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
       console.error('Error deleting project:', error);
-      fetchData();
     }
   };
 
